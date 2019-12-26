@@ -416,6 +416,7 @@ public:
         loc = first;
         while (loc != nullptr) {
             i++;
+//            cout<<loc->title<<endl;
             loc = loc->next;
         }
         cout<<"Total Articles are "<<i<<endl;
@@ -459,8 +460,9 @@ public:
     Author* root;
     Author* ploc;
     Author* loc;
-private:
     
+private:
+    int sc = 0;
     Author* insert(Author *node, string name, string aff, Publications* pub){
         search(name);
         if (loc != nullptr) {
@@ -561,13 +563,12 @@ private:
 //    }
     
     int length(Author* n){
-        static int c = 0;
         if (n!= nullptr) {
-            c++;
+            sc++;
             length(n->left);
             length(n->right);
         }
-        return c;
+        return sc;
     }
     
     int totalAuthors(Article* a){
@@ -608,6 +609,7 @@ public:
 //        prefix(root);
 //    }
     void length(){
+        sc = 0;
         int c = length(root);
         cout<<"Total Authors are "<<c<<endl;
     }
@@ -627,6 +629,8 @@ public:
                 loc = loc->right;
             }
         }
+        
+       
     }
     int totalNoOfArticlesPublished(string name){
         int count = 0;
@@ -734,6 +738,18 @@ public:
         
     }
     
+//    int countOneChild(Author *temp) {
+//        static int c = 0;
+//        if (temp != nullptr) {
+//            if((temp->left == nullptr && temp->right != nullptr) || (temp->left != nullptr && temp->right == nullptr)){
+//                c++;
+//            }
+//            countOneChild(temp->left);
+//            countOneChild(temp->right);
+//        }
+//        return c;
+//    }
+    
 };
 
 
@@ -748,14 +764,25 @@ private:
     string Year;
     string Month;
     string Publisher;
-    
+    ArticleLinkList* l;
 public:
+    Parser(){
+         l = new ArticleLinkList();
+    }
     void loadData(AuthorAVLTree *t) {
-        int c =0;
-        ArticleLinkList* l = new ArticleLinkList();
+        static int run = 0;
+        if (run != 2) {
+            run++;
+        }
+        else{
+            return;
+        }
+        string publication;
+        string value;
+        string tempValue;
         ifstream file;
         file.open("/Users/apple/Desktop/DataSet in CSV Format.csv");
-
+        
         const int AuthorIndex = 3;
         const int TitleIndex = 4;
         const int Journal_nameIndex = 5;
@@ -764,16 +791,16 @@ public:
         const int PublisherIndex = 19;
 
         // wasting the line with column headings
-        string publication;
+        
         getline(file, publication, '\n');
 
         // temporary values to store data
-        string value;
-        string tempValue;
+        
         int currentIndex = 0;
         
 
         // file file has lines
+        
         while (file.good()){
 
             // get a value
@@ -839,7 +866,7 @@ public:
                 currentIndex = 2;
             
                 
-                if (Title != "") {
+                if (run == 2) {
                     AuthorsPerArticleLinkList *al = new AuthorsPerArticleLinkList();
                     string temp = authors;
                     temp[temp.length()-1] = ';';
@@ -895,8 +922,13 @@ public:
             
             currentIndex ++;
         }
-        l->length();
-        t->length();
+        
+        if (run == 1) {
+            loadData(t);
+            l->length();
+            t->length();
+        }
+       
     }
 
 };
@@ -905,10 +937,10 @@ public:
 int main(){
    
     AuthorAVLTree *t = new AuthorAVLTree();
+    Parser *p = new Parser();
     int ch;
     string name;
-    
-    Parser *p = new Parser();
+
     p->loadData(t);
     
     cout<<"\t\t\t\t\t\t"<<"************************"<<endl;
