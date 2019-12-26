@@ -938,7 +938,7 @@ int main(){
     cout<<"Choose Desired Option"<<endl;
     cin>>ch;
     if (ch == -1) {
-        exit(0);
+        exit(1);
     }
     else{
         goto repeat;
