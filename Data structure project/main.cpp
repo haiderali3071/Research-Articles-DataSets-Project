@@ -219,22 +219,23 @@ public:
     PositionNode(){
         position = 0;
         noOfPapers = 0;
+        next = nullptr;
     }
 };
 
 class PositionLinkList{
     
 private:
-    int length(){
-        int l = 0;
-        loc = f;
-        while (loc != nullptr) {
-            l++;
-            ploc = loc;
-            loc=loc->next;
-        }
-        return l;
-    }
+//    int length(){
+//        int l = 0;
+//        loc = f;
+//        while (loc != nullptr) {
+//            l++;
+//            ploc = loc;
+//            loc=loc->next;
+//        }
+//        return l;
+//    }
     
 public:
     PositionNode* f;
@@ -242,6 +243,12 @@ public:
     PositionNode* ploc;
     PositionNode* loc;
     
+    PositionLinkList(){
+        f = nullptr;
+        loc = nullptr;
+        ploc = nullptr;
+        l = nullptr;
+    }
     bool empty(){
         return f == nullptr;
     }
@@ -362,6 +369,10 @@ public:
     string month;
     string publisher;
     Article *next;
+    
+    Article(){
+        next = nullptr;
+    }
 };
 
 
@@ -399,6 +410,15 @@ public:
             first = temp;
             last = temp;
         }
+    }
+    void length(){
+        int i=0;
+        loc = first;
+        while (loc != nullptr) {
+            i++;
+            loc = loc->next;
+        }
+        cout<<"Total Articles are "<<i<<endl;
     }
     
 };
@@ -540,15 +560,15 @@ private:
 //        }
 //    }
     
-//    int count(Author* n){
-//        static int c = 0;
-//        if (n!= nullptr) {
-//            c++;
-//            count(n->left);
-//            count(n->right);
-//        }
-//        return c;
-//    }
+    int length(Author* n){
+        static int c = 0;
+        if (n!= nullptr) {
+            c++;
+            length(n->left);
+            length(n->right);
+        }
+        return c;
+    }
     
     int totalAuthors(Article* a){
         int c = 0;
@@ -587,11 +607,10 @@ public:
 //    void print_names(){
 //        prefix(root);
 //    }
-//    int count(){
-//        int c = count(root);
-//        cout<<c<<endl;
-//        return c;
-//    }
+    void length(){
+        int c = length(root);
+        cout<<"Total Authors are "<<c<<endl;
+    }
     void search(string n){
         ploc = nullptr;
         loc = root;
@@ -717,171 +736,181 @@ public:
     
 };
 
-AuthorAVLTree* t = new AuthorAVLTree();
 
 //##################PARSER#######################
 
-class Paper{
-public:
+class Parser{
+private:
+    
     string authors;
     string Title;
     string Journal_name;
     string Year;
     string Month;
     string Publisher;
-};
+    
+public:
+    void loadData(AuthorAVLTree *t) {
+        int c =0;
+        ArticleLinkList* l = new ArticleLinkList();
+        ifstream file;
+        file.open("/Users/apple/Desktop/DataSet in CSV Format.csv");
 
-void read() {
-    ArticleLinkList* l = new ArticleLinkList();
-    ifstream file;
-    file.open("/Users/apple/Desktop/DataSet in CSV Format.csv");
+        const int AuthorIndex = 3;
+        const int TitleIndex = 4;
+        const int Journal_nameIndex = 5;
+        const int MonthIndex = 8;
+        const int YearIndex = 10;
+        const int PublisherIndex = 19;
 
-    const int AuthorIndex = 3;
-    const int TitleIndex = 4;
-    const int Journal_nameIndex = 5;
-    const int MonthIndex = 8;
-    const int YearIndex = 10;
-    const int PublisherIndex = 19;
+        // wasting the line with column headings
+        string publication;
+        getline(file, publication, '\n');
 
-    // wasting the line with column headings
-    string publication;
-    getline(file, publication, '\n');
+        // temporary values to store data
+        string value;
+        string tempValue;
+        int currentIndex = 0;
+        
 
-    // temporary values to store data
-    string value;
-    string tempValue;
-    int currentIndex = 0;
+        // file file has lines
+        while (file.good()){
 
-    // a new Article just to print that the program is working
-    auto *p = new Paper();
+            // get a value
+            getline(file, value,',');
 
-    // file file has lines
-    while (file.good()){
+            // sometimes when the cells have , in them, the program messes up ... this code is to ignore , in "" or {}
+            if (value.find('{') != std::string::npos && value.find('}') == std::string::npos)
+            {
+                while (true) {
+                    getline(file, tempValue, ',');
+                    value.append("," + tempValue);
+                    if (tempValue.find('}') != std::string::npos)
+                        break;
 
-        // get a value
-        getline(file, value,',');
-
-        // sometimes when the cells have , in them, the program messes up ... this code is to ignore , in "" or {}
-        if (value.find('{') != std::string::npos && value.find('}') == std::string::npos)
-        {
-            while (true) {
-                getline(file, tempValue, ',');
-                value.append("," + tempValue);
-                if (tempValue.find('}') != std::string::npos)
-                    break;
-
-            }
-        }
-        else if (value.find('"') != std::string::npos && value.rfind('"') != value.size()-1)
-        {
-            while (true) {
-                getline(file, tempValue, ',');
-                value.append("," + tempValue);
-                if (tempValue.find('"') != std::string::npos)
-                    break;
-
-            }
-        }
-
-        // assigning values (currentIndex in the current column number)
-        switch(currentIndex) {
-            case AuthorIndex:
-                p->authors = value;
-                break;
-            case TitleIndex:
-                p->Title = value;
-                break;
-            case Journal_nameIndex:
-                p->Journal_name = value;
-                break;
-            case MonthIndex:
-                p->Month = value;
-                break;
-            
-            case PublisherIndex:
-                p->Publisher = value;
-                break;
-            case YearIndex:
-            string v = "";
-            for (int i=0; i<value.length(); i++) {
-                if (value[i] != '{' && value[i] != '}') {
-                    v+=value[i];
                 }
             }
-            p->Year = v;
-            break;
-        }
+            else if (value.find('"') != std::string::npos && value.rfind('"') != value.size()-1)
+            {
+                while (true) {
+                    getline(file, tempValue, ',');
+                    value.append("," + tempValue);
+                    if (tempValue.find('"') != std::string::npos)
+                        break;
 
-        // if a new record has started .. printing the record and resetting the column no
+                }
+            }
 
-        // (resets when the column Identifier(in csv) is detected (all entries of the column start with "ISI:))
-        if (value.find("\"ISI:") == 0)
-        {
-            // 2 because the number of the column Identifier is 2
-            currentIndex = 2;
-        
+            // assigning values (currentIndex in the current column number)
+            switch(currentIndex) {
+                case AuthorIndex:
+                    authors = value;
+                    break;
+                case TitleIndex:
+                    Title = value;
+                    break;
+                case Journal_nameIndex:
+                    Journal_name = value;
+                    break;
+                case MonthIndex:
+                    Month = value;
+                    break;
+                
+                case PublisherIndex:
+                    Publisher = value;
+                    break;
+                case YearIndex:
+                string v = "";
+                for (int i=0; i<value.length(); i++) {
+                    if (value[i] != '{' && value[i] != '}') {
+                        v+=value[i];
+                    }
+                }
+                Year = v;
+                break;
+            }
+
+            // if a new record has started .. printing the record and resetting the column no
+
+            // (resets when the column Identifier(in csv) is detected (all entries of the column start with "ISI:))
+            if (value.find("\"ISI:") == 0)
+            {
+                // 2 because the number of the column Identifier is 2
+                currentIndex = 2;
             
-            if (p->Title != "") {
-                AuthorsPerArticleLinkList *al = new AuthorsPerArticleLinkList();
-                string temp = p->authors;
-                temp[temp.length()-1] = ';';
-                string name = "";
-                for (int i=0; i<temp.length(); i++) {
-                    if (temp[i] != ',' && temp[i] != '"') {
-                        if (temp[i] != ';') {
-                           name+=temp[i];
+                
+                if (Title != "") {
+                    AuthorsPerArticleLinkList *al = new AuthorsPerArticleLinkList();
+                    string temp = authors;
+                    temp[temp.length()-1] = ';';
+                    string name = "";
+                    for (int i=0; i<temp.length(); i++) {
+                        if (temp[i] != ',' && temp[i] != '"') {
+                            if (temp[i] != ';') {
+                               name+=temp[i];
+                            }
+                            else{
+                                transform(name.begin(), name.end(), name.begin(), ::tolower);
+                                t->insert(name, "Affiliation", nullptr);
+                                t->search(name);
+                                al->insert(t->loc);
+                                name = "";
+                                i++;
+                                
+                            }
+                        }
+                    }
+                    string s = "";
+                    for (int i=0; i<Journal_name.length(); i++) {
+                        if (Journal_name[i] != '"' && Journal_name[i] != '{' && Journal_name[i] != '}') {
+                            s+=Journal_name[i];
+                        }
+                    }
+                    Journal_name = s;
+                    l->insert(al->first, Title,Journal_name, Publisher, Year, Month);
+                    
+                    AuthorsPerArticle* loc = l->last->authors;
+                    while (loc != nullptr) {
+                        Publications *p = new Publications();
+                        Publications *loc1 = loc->data->publications;
+                        Publications *ploc1 = nullptr;
+                        p->data = l->last;
+                        
+                        while (loc1 != nullptr) {
+                            ploc1 = loc1;
+                            loc1 = loc1->next;
+                        }
+                        if (ploc1 != nullptr) {
+                            ploc1->next = p;
                         }
                         else{
-                            t->insert(name, "Affiliation", nullptr);
-                            t->search(name);
-                            al->insert(t->loc);
-                            name = "";
-                            i++;
-                            
+                            loc->data->publications = p;
                         }
+                        
+                        loc = loc->next;
                     }
-                }
-                string s = "";
-                for (int i=0; i<p->Journal_name.length(); i++) {
-                    if (p->Journal_name[i] != '"' && p->Journal_name[i] != '{' && p->Journal_name[i] != '}') {
-                        s+=p->Journal_name[i];
-                    }
-                }
-                p->Journal_name = s;
-                l->insert(al->first, p->Title,p->Journal_name, p->Publisher, p->Year, p->Month);
-                
-                AuthorsPerArticle* loc = l->last->authors;
-                while (loc != nullptr) {
-                    Publications *p = new Publications();
-                    Publications *loc1 = loc->data->publications;
-                    Publications *ploc1 = nullptr;
-                    p->data = l->last;
-                    
-                    while (loc1 != nullptr) {
-                        ploc1 = loc1;
-                        loc1 = loc1->next;
-                    }
-                    if (ploc1 != nullptr) {
-                        ploc1->next = p;
-                    }
-                    else{
-                        loc->data->publications = p;
-                    }
-                    
-                    loc = loc->next;
                 }
             }
+            
+            
+            currentIndex ++;
         }
-        
-        
-        currentIndex ++;
+        l->length();
+        t->length();
     }
-}
+
+};
+
 
 int main(){
-    read();
+   
+    AuthorAVLTree *t = new AuthorAVLTree();
     int ch;
     string name;
+    
+    Parser *p = new Parser();
+    p->loadData(t);
+    
     cout<<"\t\t\t\t\t\t"<<"************************"<<endl;
     cout<<"\t\t\t\t\t\t"<<"*Data Structure Project*"<<endl;
     cout<<"\t\t\t\t\t\t"<<"************************"<<endl<<endl<<endl;
@@ -902,6 +931,7 @@ int main(){
     cout<<"Enter Full Name of an Author"<<endl;
     cin.ignore(256, '\n');
     getline(cin,name);
+    transform(name.begin(), name.end(), name.begin(), ::tolower);
     cout<<endl;
     switch (ch) {
         case 1:
@@ -922,9 +952,13 @@ int main(){
         break;
         case 6:
             t->totalNoOfArticlesPublished(name);
+            cout<<endl;
             t->publicationsPerYear(name);
+            cout<<endl;
             t->no_of_co_authors(name);
+            cout<<endl;
             t->positionOfAuthorInPublications(name);
+            cout<<endl;
             t->journalsOfAuthor(name);
         break;
             
