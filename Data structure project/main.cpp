@@ -630,7 +630,7 @@ public:
             }
         }
         
-       
+//        cout<<"Search in "<<i<<" steps"<<endl;
     }
     int totalNoOfArticlesPublished(string name){
         int count = 0;
@@ -770,13 +770,7 @@ public:
          l = new ArticleLinkList();
     }
     void loadData(AuthorAVLTree *t) {
-        static int run = 0;
-        if (run != 2) {
-            run++;
-        }
-        else{
-            return;
-        }
+        
         string publication;
         string value;
         string tempValue;
@@ -854,19 +848,8 @@ public:
                     }
                 }
                 Year = v;
-                break;
-            }
-
-            // if a new record has started .. printing the record and resetting the column no
-
-            // (resets when the column Identifier(in csv) is detected (all entries of the column start with "ISI:))
-            if (value.find("\"ISI:") == 0)
-            {
-                // 2 because the number of the column Identifier is 2
-                currentIndex = 2;
-            
-                
-                if (run == 2) {
+                    
+                if (Title != "") {
                     AuthorsPerArticleLinkList *al = new AuthorsPerArticleLinkList();
                     string temp = authors;
                     temp[temp.length()-1] = ';';
@@ -874,7 +857,7 @@ public:
                     for (int i=0; i<temp.length(); i++) {
                         if (temp[i] != ',' && temp[i] != '"') {
                             if (temp[i] != ';') {
-                               name+=temp[i];
+                                name+=temp[i];
                             }
                             else{
                                 transform(name.begin(), name.end(), name.begin(), ::tolower);
@@ -897,11 +880,13 @@ public:
                     l->insert(al->first, Title,Journal_name, Publisher, Year, Month);
                     
                     AuthorsPerArticle* loc = l->last->authors;
+                    
                     while (loc != nullptr) {
                         Publications *p = new Publications();
+                        p->data = l->last;
                         Publications *loc1 = loc->data->publications;
                         Publications *ploc1 = nullptr;
-                        p->data = l->last;
+                        
                         
                         while (loc1 != nullptr) {
                             ploc1 = loc1;
@@ -917,17 +902,24 @@ public:
                         loc = loc->next;
                     }
                 }
+                
+                break;
             }
-            
+
+            // if a new record has started .. printing the record and resetting the column no
+
+            // (resets when the column Identifier(in csv) is detected (all entries of the column start with "ISI:))
+            if (value.find("\"ISI:") == 0)
+            {
+                // 2 because the number of the column Identifier is 2
+                currentIndex = 2;
+            }
             
             currentIndex ++;
         }
         
-        if (run == 1) {
-            loadData(t);
-            l->length();
-            t->length();
-        }
+        l->length();
+        t->length();
        
     }
 
