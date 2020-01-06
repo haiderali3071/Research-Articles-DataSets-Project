@@ -6,12 +6,7 @@
 #include <stack>
 
 using namespace std;
-
-//class Author;
 class Article;
-//class Publications;
-//class AuthorsPerArticle;
-
 
 class Node{
 public:
@@ -414,7 +409,6 @@ public:
         loc = first;
         while (loc != NULL) {
             i++;
-//            cout<<loc->title<<endl;
             loc = loc->next;
         }
         cout<<"Total Articles are "<<i<<endl;
@@ -552,15 +546,6 @@ public:
         return root == NULL;
     }
     
-    
-//    void prefix(Author* n){
-//        if (n!= NULL) {
-//
-//            prefix(n->left);
-//            prefix(n->right);
-//        }
-//    }
-    
     int length(Author* n){
         if (n!= NULL) {
             sc++;
@@ -604,9 +589,7 @@ public:
     void insert(string name, string aff, Publications* pub){
         root = insert(root, name, aff, pub);
     }
-//    void print_names(){
-//        prefix(root);
-//    }
+
     void length(){
         sc = 0;
         int c = length(root);
@@ -629,7 +612,6 @@ public:
             }
         }
         
-//        cout<<"Search in "<<i<<" steps"<<endl;
     }
     int totalNoOfArticlesPublished(string name){
         int count = 0;
@@ -737,18 +719,6 @@ public:
         
     }
     
-    int countOneChild(Author *temp) {
-        static int c = 0;
-        if (temp != NULL) {
-            if((temp->left == NULL && temp->right != NULL) || (temp->left != NULL && temp->right == NULL)){
-                c++;
-            }
-            countOneChild(temp->left);
-            countOneChild(temp->right);
-        }
-        return c;
-    }
-    
 };
 
 
@@ -848,6 +818,7 @@ public:
                 }
                 Year = v;
                     
+                    // Follwing code loads data into trees and linked Lists
                 if (Title != "") {
                     AuthorsPerArticleLinkList *al = new AuthorsPerArticleLinkList();
                     string temp = authors;
