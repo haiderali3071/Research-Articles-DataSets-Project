@@ -153,7 +153,7 @@ private:
     }
     
     void search(string y){
-        ploc = nullptr;
+        ploc = NULL;
         loc = f;
         
         while (loc != NULL && loc->year < y) {
