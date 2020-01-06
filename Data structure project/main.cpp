@@ -1,7 +1,5 @@
-//#include "Article.cpp"
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -22,7 +20,7 @@ public:
     Node* next;
     
     Node(){
-        next = nullptr;
+        next = NULL;
         count = 0;
     }
 };
@@ -30,16 +28,16 @@ public:
 class LinkList{
 private:
     void searchForSortingInsertion(string y){
-        ploc = nullptr;
+        ploc = NULL;
         loc = f;
         
-        while (loc != nullptr && loc->year < y) {
+        while (loc != NULL && loc->year < y) {
             ploc = loc;
             loc = loc->next;
         }
         
-        if (loc != nullptr && loc->year != y) {
-            loc = nullptr;
+        if (loc != NULL && loc->year != y) {
+            loc = NULL;
         }
     }
 public:
@@ -48,7 +46,7 @@ public:
     Node* ploc;
     Node* loc;
     bool empty(){
-        return f == nullptr;
+        return f == NULL;
     }
     void insert(string s){
         searchForSortingInsertion(s);
@@ -56,7 +54,7 @@ public:
             Node* t = new Node();
              t->year = s;
 
-             if (ploc == nullptr) {
+             if (ploc == NULL) {
                  insertAtFront(s,0);
              }
              else{
@@ -73,7 +71,7 @@ public:
         Node* t = new Node();
             t->year = s;
             t->count = c;
-        if (ploc == nullptr) {
+        if (ploc == NULL) {
             insertAtFront(s,c);
         }
         else{
@@ -100,9 +98,9 @@ public:
     }
     
     bool search(string s){
-        ploc = nullptr;
+        ploc = NULL;
         loc = f;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             if (loc->year == s) {
                 return true;
             }
@@ -113,7 +111,7 @@ public:
     void showPublicationsPerYear(){
         loc = f;
         cout<<"Years \t\t Publications"<<endl;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             cout<<loc->year<<"\t\t\t"<<loc->count<<endl;
             loc=loc->next;
         }
@@ -123,7 +121,7 @@ public:
         int i=0;
         loc = f;
         cout<<"Publications \t Years \t No of CO-Authors"<<endl;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             i++;
             cout<<"\t"<<i<<"\t\t\t  "<<loc->year<<"\t\t\t"<<loc->count<<endl;
             loc=loc->next;
@@ -139,7 +137,7 @@ public:
     JournalNode* next;
     
     JournalNode(){
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -151,20 +149,20 @@ private:
     JournalNode* loc;
     
     bool empty(){
-        return f == nullptr;
+        return f == NULL;
     }
     
     void search(string y){
         ploc = nullptr;
         loc = f;
         
-        while (loc != nullptr && loc->year < y) {
+        while (loc != NULL && loc->year < y) {
             ploc = loc;
             loc = loc->next;
         }
         
-        if (loc != nullptr && loc->year != y) {
-            loc = nullptr;
+        if (loc != NULL && loc->year != y) {
+            loc = NULL;
         }
     }
     
@@ -185,7 +183,7 @@ private:
 public:
     void insert(string s1, string s2){
         search(s2);
-        if (ploc == nullptr) {
+        if (ploc == NULL) {
             insertAtFront(s1,s2);
         }
         else{
@@ -201,7 +199,7 @@ public:
         loc = f;
         int i =0;
         cout<<"Position \t Publications Years \t\t\t\t\t\t\t Journal "<<endl<<endl;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             i++;
             cout<<"\t"<<i<<"\t\t\t"<<loc->year<<"\t\t\t\t"<<loc->journal<<endl;
             loc=loc->next;
@@ -219,7 +217,7 @@ public:
     PositionNode(){
         position = 0;
         noOfPapers = 0;
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -229,7 +227,7 @@ private:
 //    int length(){
 //        int l = 0;
 //        loc = f;
-//        while (loc != nullptr) {
+//        while (loc != NULL) {
 //            l++;
 //            ploc = loc;
 //            loc=loc->next;
@@ -244,13 +242,13 @@ public:
     PositionNode* loc;
     
     PositionLinkList(){
-        f = nullptr;
-        loc = nullptr;
-        ploc = nullptr;
-        l = nullptr;
+        f = NULL;
+        loc = NULL;
+        ploc = NULL;
+        l = NULL;
     }
     bool empty(){
-        return f == nullptr;
+        return f == NULL;
     }
 
     void insertAtFront(int p) {
@@ -267,22 +265,22 @@ public:
     }
     
     void search(int p){
-        ploc = nullptr;
+        ploc = NULL;
         loc = f;
         
-        while (loc != nullptr && loc->position < p) {
+        while (loc != NULL && loc->position < p) {
             ploc = loc;
             loc = loc->next;
         }
         
-        if (loc != nullptr && loc->position != p) {
-            loc = nullptr;
+        if (loc != NULL && loc->position != p) {
+            loc = NULL;
         }
     }
     
     void insert(int p){
         search(p);
-        if (ploc == nullptr) {
+        if (ploc == NULL) {
             insertAtFront(p);
         }
         else{
@@ -295,10 +293,10 @@ public:
     
     void showAuthorPositionInPublications(){
         loc = f;
-        ploc = nullptr;
+        ploc = NULL;
         int p = 0;
         cout<<"Position \t No of Papers "<<endl<<endl;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             p++;
             if (p == loc->position) {
                 cout<<"\t"<<loc->position<<"\t\t\t"<<loc->noOfPapers<<endl;
@@ -330,7 +328,7 @@ public:
     Publications *next;
 
     Publications(){
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -344,8 +342,8 @@ public:
     Author *right;
 
     Author(){
-        left = nullptr;
-        right = nullptr;
+        left = NULL;
+        right = NULL;
     }
 };
 
@@ -355,7 +353,7 @@ public:
     Author *data;
     AuthorsPerArticle *next;
     AuthorsPerArticle(){
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -371,7 +369,7 @@ public:
     Article *next;
     
     Article(){
-        next = nullptr;
+        next = NULL;
     }
 };
 
@@ -388,11 +386,11 @@ private:
     Article* loc;
 public:
     ArticleLinkList(){
-        first = nullptr;
-        last = nullptr;
+        first = NULL;
+        last = NULL;
     }
     bool isEmpty(){
-        return first == nullptr;
+        return first == NULL;
     }
     void insert(AuthorsPerArticle* auths, string title, string jn,string publ, string y, string mon){
         Article* temp = new Article();
@@ -414,7 +412,7 @@ public:
     void length(){
         int i=0;
         loc = first;
-        while (loc != nullptr) {
+        while (loc != NULL) {
             i++;
 //            cout<<loc->title<<endl;
             loc = loc->next;
@@ -433,12 +431,12 @@ class AuthorsPerArticleLinkList{
         AuthorsPerArticle* last;
     public:
        AuthorsPerArticleLinkList(){
-            first = nullptr;
-            last = nullptr;
+            first = NULL;
+            last = NULL;
         }
         
         bool isEmpty(){
-            return first == nullptr;
+            return first == NULL;
         }
         void insert(Author* auth){
             AuthorsPerArticle* temp = new AuthorsPerArticle();
@@ -465,10 +463,10 @@ private:
     int sc = 0;
     Author* insert(Author *node, string name, string aff, Publications* pub){
         search(name);
-        if (loc != nullptr) {
+        if (loc != NULL) {
             return node;
         }
-        if (node == nullptr) {
+        if (node == NULL) {
             node = new Author();
             node->name = name;
             node->affiliation = aff;
@@ -485,9 +483,10 @@ private:
         }
         return node;
     }
+public:
     
     int height(Author* node){
-        if (node != nullptr) {
+        if (node != NULL) {
             int h1 = 1+height(node->left);
             int h2 = 1+height(node->right);
             if (h1>h2) {
@@ -550,12 +549,12 @@ private:
     }
     
     bool isEmpty(){
-        return root == nullptr;
+        return root == NULL;
     }
     
     
 //    void prefix(Author* n){
-//        if (n!= nullptr) {
+//        if (n!= NULL) {
 //
 //            prefix(n->left);
 //            prefix(n->right);
@@ -563,7 +562,7 @@ private:
 //    }
     
     int length(Author* n){
-        if (n!= nullptr) {
+        if (n!= NULL) {
             sc++;
             length(n->left);
             length(n->right);
@@ -575,9 +574,9 @@ private:
         int c = 0;
         AuthorsPerArticle* loc1;
         AuthorsPerArticle* ploc1;
-        ploc1 = nullptr;
+        ploc1 = NULL;
         loc1 = a->authors;
-        while (loc1 != nullptr) {
+        while (loc1 != NULL) {
             c++;
             ploc1 = loc1;
             loc1 = loc1->next;
@@ -588,7 +587,7 @@ private:
     int positionOfAuthor(string n, Article* a){
         int p = 0;
         AuthorsPerArticle* loc1 = a->authors;
-        while (loc1 != nullptr) {
+        while (loc1 != NULL) {
             p++;
             if (strcmp(loc1->data->name.c_str(), n.c_str()) == 0) {
                 return p;
@@ -600,7 +599,7 @@ private:
     
 public:
     AuthorAVLTree(){
-        root = nullptr;
+        root = NULL;
     }
     void insert(string name, string aff, Publications* pub){
         root = insert(root, name, aff, pub);
@@ -614,13 +613,13 @@ public:
         cout<<"Total Authors are "<<c<<endl;
     }
     void search(string n){
-        ploc = nullptr;
+        ploc = NULL;
         loc = root;
         if (isEmpty()) {
             return;
         }
         
-        while (loc != nullptr && strcmp(loc->name.c_str(), n.c_str()) != 0) {
+        while (loc != NULL && strcmp(loc->name.c_str(), n.c_str()) != 0) {
             ploc = loc;
             if (n < loc->name) {
                 loc = loc->left;
@@ -635,9 +634,9 @@ public:
     int totalNoOfArticlesPublished(string name){
         int count = 0;
         search(name);
-        if (loc != nullptr) {
+        if (loc != NULL) {
             Publications* loc1 = loc->publications;
-            while (loc1 != nullptr) {
+            while (loc1 != NULL) {
                 count++;
                 loc1 = loc1->next;
             }
@@ -654,10 +653,10 @@ public:
     void publicationsPerYear(string n){
         LinkList *l = new LinkList();
         search(n);
-        if (loc != nullptr) {
+        if (loc != NULL) {
             Publications* loc1 = loc->publications;
             
-            while (loc1 != nullptr) {
+            while (loc1 != NULL) {
                 if (l->search(loc1->data->year)) {
                     l->loc->count++;
                 }
@@ -679,9 +678,9 @@ public:
     void no_of_co_authors(string n){
            LinkList *l = new LinkList();
            search(n);
-           if (loc != nullptr) {
+           if (loc != NULL) {
                Publications* loc1 = loc->publications;
-               while (loc1 != nullptr) {
+               while (loc1 != NULL) {
                   
                    l->insert(loc1->data->year,totalAuthors(loc1->data) - 1);
                    
@@ -698,9 +697,9 @@ public:
     void journalsOfAuthor(string n){
         JournalLinkList *j = new JournalLinkList();
         search(n);
-        if (loc != nullptr) {
+        if (loc != NULL) {
             Publications* loc1 = loc->publications;
-            while (loc1 != nullptr) {
+            while (loc1 != NULL) {
                 j->insert(loc1->data->journal_name, loc1->data->year);
                 loc1 = loc1->next;
             }
@@ -715,12 +714,12 @@ public:
         PositionLinkList *l = new PositionLinkList();
         int p;
         search(name);
-        if (loc != nullptr) {
+        if (loc != NULL) {
             Publications* loc1 = loc->publications;
-            while (loc1 != nullptr) {
+            while (loc1 != NULL) {
                 p = positionOfAuthor(name, loc1->data);
                 l->search(p);
-                if (l->loc != nullptr) {
+                if (l->loc != NULL) {
                     l->loc->noOfPapers++;
                 }
                 else{
@@ -738,17 +737,17 @@ public:
         
     }
     
-//    int countOneChild(Author *temp) {
-//        static int c = 0;
-//        if (temp != nullptr) {
-//            if((temp->left == nullptr && temp->right != nullptr) || (temp->left != nullptr && temp->right == nullptr)){
-//                c++;
-//            }
-//            countOneChild(temp->left);
-//            countOneChild(temp->right);
-//        }
-//        return c;
-//    }
+    int countOneChild(Author *temp) {
+        static int c = 0;
+        if (temp != NULL) {
+            if((temp->left == NULL && temp->right != NULL) || (temp->left != NULL && temp->right == NULL)){
+                c++;
+            }
+            countOneChild(temp->left);
+            countOneChild(temp->right);
+        }
+        return c;
+    }
     
 };
 
@@ -861,7 +860,7 @@ public:
                             }
                             else{
                                 transform(name.begin(), name.end(), name.begin(), ::tolower);
-                                t->insert(name, "Affiliation", nullptr);
+                                t->insert(name, "Affiliation", NULL);
                                 t->search(name);
                                 al->insert(t->loc);
                                 name = "";
@@ -881,18 +880,18 @@ public:
                     
                     AuthorsPerArticle* loc = l->last->authors;
                     
-                    while (loc != nullptr) {
+                    while (loc != NULL) {
                         Publications *p = new Publications();
                         p->data = l->last;
                         Publications *loc1 = loc->data->publications;
-                        Publications *ploc1 = nullptr;
+                        Publications *ploc1 = NULL;
                         
                         
-                        while (loc1 != nullptr) {
+                        while (loc1 != NULL) {
                             ploc1 = loc1;
                             loc1 = loc1->next;
                         }
-                        if (ploc1 != nullptr) {
+                        if (ploc1 != NULL) {
                             ploc1->next = p;
                         }
                         else{
@@ -932,8 +931,10 @@ int main(){
     Parser *p = new Parser();
     int ch;
     string name;
-
+    
     p->loadData(t);
+    
+
     
     cout<<"\t\t\t\t\t\t"<<"************************"<<endl;
     cout<<"\t\t\t\t\t\t"<<"*Data Structure Project*"<<endl;
